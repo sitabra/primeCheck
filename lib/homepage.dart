@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
+
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final myController = TextEditingController();
 
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    myController.dispose();
-    super.dispose();
+  TextEditingController myController = TextEditingController();
+   String? text = '';
+
+  String checkPrimeNumber() {
+    int number = int.parse(myController.text.toString());
+    for (var i = 2; i<=number/2; ++i){
+      text = number % 2 != 0
+          ? 'This is a prime number'
+          : 'Entered Number is not a prime number';
+    }
+    return text!;
   }
 
   @override
@@ -25,17 +33,13 @@ class _HomePageState extends State<HomePage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: TextField(
-          // initialValue: _tip.toString(),
-          // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           keyboardType: TextInputType.number,
           controller: myController,
-
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        // When the user presses the button, show an alert dialog containing
-        // the text that the user has entered into the text field.
         onPressed: () {
+          checkPrimeNumber();
           showDialog(
             context: context,
             builder: (context) {
@@ -43,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                 title: Text('Answer'),
                 // Retrieve the text the that user has entered by using the
                 // TextEditingController.
-                content: Text(myController.text),
+                content: Text(text!),
               );
             },
           );
